@@ -1333,7 +1333,7 @@ impl PeerHandler {
                 };
                 // bs004: log reservation for pieces 51-80
                 if is_monitored(n.get() as usize) {
-                    info!(
+                    trace!(
                         peer = ?self.addr,
                         piece = n.get(),
                         "RESERVE"
@@ -1393,7 +1393,7 @@ impl PeerHandler {
 
         // bs004: log steal for pieces 51-80
         if is_monitored(stolen_idx.get() as usize) {
-            info!(
+            debug!(
                 piece = stolen_idx.get(),
                 old_peer = ?from_peer,
                 new_peer = ?self.addr,
@@ -1473,7 +1473,7 @@ impl PeerHandler {
                 trace!("updated bitfield with have={}", have);
                 // bs004: log PEER_HAS for pieces 51-80
                 if is_monitored(have as usize) {
-                    info!(
+                    trace!(
                         peer = ?self.addr,
                         piece = have,
                         "PEER_HAS"
@@ -1509,7 +1509,7 @@ impl PeerHandler {
         for p in 51..=80usize {
             let has = bf.get(p).map(|v| *v).unwrap_or(false);
             if has {
-                info!(
+                trace!(
                     peer = ?self.addr,
                     piece = p,
                     "PEER_HAS"
@@ -1891,7 +1891,7 @@ impl PeerHandler {
                     if is_monitored(index as usize) {
                         let (reqs, blocks, bytes) = MONITORS.take(index as usize)
                             .unwrap_or((0, 0, 0));
-                        info!(
+                        debug!(
                             piece = index,
                             peer = ?addr,
                             duration_ms = full_piece_download_time.as_millis() as u64,
